@@ -1,0 +1,49 @@
+{% extends 'base.html' %} 
+
+{% block title %} Boletim {% endblock %}
+
+{% block content %}
+   
+    {% if data['boletim'] %}
+    <div>
+        <div class="search">
+            <form action="{{ url_for('boletim') }}" method="get">
+                <label>Ano letivo</label>
+                <input type="number" name="ano_letivo">
+    
+                <button type="submit">Selecionar</button>
+            </form>
+        </div>  
+        
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Disciplina</th>
+                    <th>Média final</th>
+                    <th>Situação</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in data["boletim"] %}
+                    <tr>
+                        <td>{{ item['disciplina'] }}</td>
+                        <td>{{ item['media_final_disciplina'] }}</td>
+                        <td>{{ item['situacao'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div>
+    {% else %}
+        <h3>Selecione o ano letivo</h3>
+        <form action="{{ url_for('boletim') }}" method="get">
+            <label>Ano letivo</label>
+            <input type="number" name="ano_letivo">
+
+            <button type="submit">Selecionar</button>
+        </form>
+    {% endif %}
+    
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %} Login OAuth SUAP {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Faça login para acessar seus dados do SUAP</h1>
+        <a href="{{ url_for('login') }}" class="btn btn-success">Login</a>
+    </div>
+{% endblock %}
