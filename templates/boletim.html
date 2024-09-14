@@ -1,49 +1,58 @@
-{% extends 'base.html' %} 
-
-{% block title %} Boletim {% endblock %}
-
-{% block content %}
-   
-    {% if data['boletim'] %}
-    <div>
-        <div class="search">
-            <form action="{{ url_for('boletim') }}" method="get">
-                <label>Ano letivo</label>
-                <input type="number" name="ano_letivo">
-    
-                <button type="submit">Selecionar</button>
-            </form>
-        </div>  
-        
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Disciplina</th>
-                    <th>Média final</th>
-                    <th>Situação</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for item in data["boletim"] %}
-                    <tr>
-                        <td>{{ item['disciplina'] }}</td>
-                        <td>{{ item['media_final_disciplina'] }}</td>
-                        <td>{{ item['situacao'] }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        
+{% extends 'base.html' %} {% block title %} Boletim {% endblock %} {% block
+content %}
+<div class="container">
+  {% if data['boletim'] %}
+  <div>
+    <div class="search">
+      <form action="{{ url_for('boletim') }}" method="get">
+        <label class="form-label fs-3 text">Ano letivo</label>
+        <select class="form-select mb-2" name="ano_letivo">
+          <option value="">Selecione o ano letivo</option>
+          {% for ano in data['anos_letivos'] %}
+            <option value="{{ ano }}">{{ ano }}</option>
+          {% endfor %}
+        </select>
+        <button class="btn btn-success" type="submit">Selecionar</button>
+      </form>
     </div>
-    {% else %}
-        <h3>Selecione o ano letivo</h3>
-        <form action="{{ url_for('boletim') }}" method="get">
-            <label>Ano letivo</label>
-            <input type="number" name="ano_letivo">
 
-            <button type="submit">Selecionar</button>
-        </form>
-    {% endif %}
-    
+    <table class="table table-striped mt-5">
+      <thead>
+        <tr>
+          <th>Disciplina</th>
+          <th>Média final</th>
+          <th>Situação</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for item in data['boletim'] %}
+          <tr>
+            <td>{{ item['disciplina'] }}</td>
+              {% if item['media_final_disciplina'] == None %}
+            <td>-</td>
+            {% else %}
+              <td>{{ item['media_final_disciplina'] }}</td>
+            {% endif %}
+            <td>{{ item['situacao'] }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <h3>Selecione o ano letivo</h3>
+  <form action="{{ url_for('boletim') }}" method="get">
+    <label class="form-label fs-3 text">Ano letivo</label>
+    <select class="form-select mb-2" name="ano_letivo">
+      <option value="">Selecione o ano letivo</option>
+      {% for ano in data['anos_letivos'] %}
+        <option value="{{ ano }}">{{ ano }}</option>
+      {% endfor %}
+    </select>
+    <button class="btn btn-success" type="submit">Selecionar</button>
+  </form>
+  {% endif %}
+</div>
+
 {% endblock %}

@@ -185,6 +185,12 @@ a.sidebar-link:hover {
   gap: 15px;
 }
 
+.user-dado {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
 .user-image {
   border: #0e2238 3px solid;
   object-fit: cover;
@@ -193,4 +199,9 @@ a.sidebar-link:hover {
 
 .user-options {
   margin-top: 50px;
+}
+
+/* Boletim */
+.form-select {
+  width: 20%;
 }

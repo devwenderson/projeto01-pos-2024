@@ -5,7 +5,22 @@
 {% block content %}
     <div class="user-infos">
         <img src="{{ data['user_data']['url_foto_150x200'] }}" class="user-image" alt="foto" />
-        <h2 class="user-name">{{ data['user_data']['vinculo']['nome'] }}</h2>
+        
+        <div class="user--dados">
+            <h2 class="user-name">{{ data['user_data']['vinculo']['nome'] }}</h2>
+            <div class="user-dado">
+                <h5>Matrícula:</h5>
+                <p>{{ data['user_data']['matricula'] }}</p>
+            </div>
+            <div class="user-dado">
+                <h5>CPF:</h5>
+                <p>{{ data['user_data']['cpf'] }}</p>
+            </div>
+            <div class="user-dado">
+                <h5>Curso:</h5>
+                <p>{{ data['user_data']['vinculo']['curso'] }}</p>
+            </div>
+        </div>
     </div>
 
     <div class="user-options">

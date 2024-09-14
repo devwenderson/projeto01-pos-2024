@@ -1,6 +1,7 @@
 from flask import Flask, redirect, url_for, session, request, jsonify, render_template
 from authlib.integrations.flask_client import OAuth
 from views.main import oauthRegister, User
+from datetime import date
 
 app = Flask(__name__)
 app.debug = True
@@ -19,6 +20,7 @@ def index():
     if 'suap_token' in session:
         user = User(oauth)
         user_data = user.fetchUserDados()
+        print(user_data.json())
         data = {"user_data": user_data.json()}
         return render_template('user.html', data=data)
     else:
@@ -26,9 +28,13 @@ def index():
     
 @app.route("/boletim", methods=["GET"])
 def boletim():
+    ano_atual = date.today().year
     user = User(oauth)
     user_data = user.fetchUserDados()
-    data = {"user_data": user_data.json()}
+    data = {
+        "user_data": user_data.json(),
+        "anos_letivos": [ano_atual - i for i in range(4)],
+    }
     if (request.args.get('ano_letivo')):
         ano_letivo = int(request.args.get('ano_letivo'))
         boletim = user.fetchUserBoletim(ano_letivo)
