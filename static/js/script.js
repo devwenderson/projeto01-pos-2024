@@ -5,3 +5,11 @@ hamBurger.addEventListener("click", function () {
 });
 
 
+const selectElement = document.getElementById('id_ano_letivo');
+
+selectElement.addEventListener('change', function() {
+  const form = document.getElementById('id_boletim_form');
+  form.submit();
+});
+
+

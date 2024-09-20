@@ -19,7 +19,7 @@ oauthRegister(oauth,
 def index():
     if 'suap_token' in session:
         user = User(oauth)
-        user_data = user.fetchUserDados()
+        user_data = user.get_user_dados()
         print(user_data.json())
         data = {"user_data": user_data.json()}
         return render_template('user.html', data=data)
@@ -28,16 +28,16 @@ def index():
     
 @app.route("/boletim", methods=["GET"])
 def boletim():
-    ano_atual = date.today().year
     user = User(oauth)
-    user_data = user.fetchUserDados()
+    user_data = user.get_user_dados()
+    anos_letivos = user.get_user_anos_letivos()
     data = {
         "user_data": user_data.json(),
-        "anos_letivos": [ano_atual - i for i in range(4)],
+        "anos_letivos": anos_letivos.json(),
     }
     if (request.args.get('ano_letivo')):
-        ano_letivo = int(request.args.get('ano_letivo'))
-        boletim = user.fetchUserBoletim(ano_letivo)
+        ano_letivo, periodo_letivo = str(request.args.get('ano_letivo')).split(".")  
+        boletim = user.get_user_boletim(ano_letivo, periodo_letivo)
         data["boletim"] = boletim.json()
         
     return render_template("boletim.html", data=data)
