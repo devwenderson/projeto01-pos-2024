@@ -14,26 +14,51 @@
         </select>
       </form>
     </div>
-
+    
     <table class="table table-striped mt-5">
       <thead>
         <tr>
           <th>Disciplina</th>
+          <th>Nota 1</th>
+          <th>Nota 2</th>
+          <th>Nota 3</th>
+          <th>Nota 4</th>
           <th>Média final</th>
           <th>Situação</th>
         </tr>
       </thead>
 
       <tbody>
-        {% for item in data['boletim'] %}
+        {% for disciplina in data['boletim'] %}
         <tr>
-          <td>{{ item['disciplina'] }}</td>
-          {% if item['media_final_disciplina'] == None %}
-          <td>-</td>
-          {% else %}
-          <td>{{ item['media_final_disciplina'] }}</td>
-          {% endif %}
-          <td>{{ item['situacao'] }}</td>
+          <td>{{ disciplina['disciplina'] }}</td>
+          <td> {% if disciplina['nota_etapa_1']['nota'] %} 
+            {{ disciplina['nota_etapa_1']['nota'] }} 
+            {% endif %} 
+          </td>
+
+          <td> {% if disciplina['nota_etapa_2']['nota'] %} 
+            {{ disciplina['nota_etapa_2']['nota'] }} 
+            {% endif %} 
+          </td>
+
+          <td> {% if disciplina['nota_etapa_3']['nota'] %} 
+            {{ disciplina['nota_etapa_3']['nota'] }} 
+            {% endif %} 
+          </td>
+
+          <td> {% if disciplina['nota_etapa_4']['nota'] %} 
+            {{ disciplina['nota_etapa_4']['nota'] }} 
+            {% endif %} 
+          </td>
+
+          <td>
+            {% if disciplina['media_final_disciplina'] %}
+              {{ disciplina['media_final_disciplina'] }}
+            {% endif %}
+          </td>
+
+          <td>{{ disciplina['situacao'] }}</td>
         </tr>
         {% endfor %}
       </tbody>
