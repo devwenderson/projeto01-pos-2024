@@ -2,6 +2,7 @@ from flask import Flask, redirect, url_for, session, request, jsonify, render_te
 from authlib.integrations.flask_client import OAuth
 from main import oauthRegister, User
 from datetime import date
+import jinja2
 
 app = Flask(__name__)
 app.debug = True
@@ -14,6 +15,12 @@ oauthRegister(oauth,
               access_token_method="POST", 
               access_token_url="https://suap.ifrn.edu.br/o/token/", 
               authorize_url="https://suap.ifrn.edu.br/o/authorize/", token="suap_token")
+
+# Manipulador de erro para UndefinedError
+@app.errorhandler(jinja2.exceptions.UndefinedError)
+def handle_jinja2_error(e):
+    # Aqui você pode enviar a exceção para log ou para um sistema de monitoramento
+    return render_template('500.html', error=str(e)), 500
 
 @app.route('/')
 def index():
@@ -29,6 +36,7 @@ def index():
 @app.route("/boletim", methods=["GET"])
 def boletim():
     user = User(oauth)
+
     user_data = user.get_user_dados()
     anos_letivos = user.get_user_anos_letivos()
     data = {
@@ -36,11 +44,18 @@ def boletim():
         "anos_letivos": anos_letivos.json(),
     }
     if (request.args.get('ano_letivo')):
-        ano_letivo, periodo_letivo = str(request.args.get('ano_letivo')).split(".")  
-        boletim = user.get_user_boletim(ano_letivo, periodo_letivo)
-        data["boletim"] = boletim.json()
+        try:
+            ano_letivo, periodo_letivo = str(request.args.get('ano_letivo')).split(".")  
+            boletim = user.get_user_boletim(ano_letivo, periodo_letivo)
+            data["boletim"] = boletim.json()                                            
+            data["ano_selecionado"] = str(request.args.get('ano_letivo'))
+        
+        except jinja2.exceptions.UndefinedError as e:
+            handle_jinja2_error(e)
         
     return render_template("boletim.html", data=data)
+
+   
 
 @app.route('/login')
 def login():

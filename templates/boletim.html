@@ -1,4 +1,6 @@
-{% extends 'base.html' %} {% block title %} Boletim {% endblock %} 
+{% extends 'base.html' %} 
+{% block title %} Boletim {% endblock %} 
+
 {% block content %}
 <div class="container">
   {% if data['boletim'] %}
@@ -8,13 +10,18 @@
         <label class="form-label fs-3 text">Ano letivo</label>
         <select class="form-select mb-2" name="ano_letivo" id="id_ano_letivo">
           <option value="">Selecione o ano letivo</option>
+
           {% for ano in data['anos_letivos'] %}
-            <option value="{{ ano['ano_letivo'] }}.{{ ano['periodo_letivo'] }}">{{ ano['ano_letivo'] }}.{{ ano['periodo_letivo'] }}</option>
+          <option
+          value="{{ ano['ano_letivo'] }}.{{ ano['periodo_letivo'] }}" 
+          {% if data["ano_selecionado"] == ano["ano_letivo"] ~ "." ~ ano["periodo_letivo"] %} selected {% endif %} >
+            {{ ano['ano_letivo'] }}.{{ ano['periodo_letivo'] }}
+          </option>
           {% endfor %}
         </select>
       </form>
     </div>
-    
+
     <table class="table table-striped mt-5">
       <thead>
         <tr>
@@ -32,30 +39,29 @@
         {% for disciplina in data['boletim'] %}
         <tr>
           <td>{{ disciplina['disciplina'] }}</td>
-          <td> {% if disciplina['nota_etapa_1']['nota'] %} 
-            {{ disciplina['nota_etapa_1']['nota'] }} 
-            {% endif %} 
-          </td>
-
-          <td> {% if disciplina['nota_etapa_2']['nota'] %} 
-            {{ disciplina['nota_etapa_2']['nota'] }} 
-            {% endif %} 
-          </td>
-
-          <td> {% if disciplina['nota_etapa_3']['nota'] %} 
-            {{ disciplina['nota_etapa_3']['nota'] }} 
-            {% endif %} 
-          </td>
-
-          <td> {% if disciplina['nota_etapa_4']['nota'] %} 
-            {{ disciplina['nota_etapa_4']['nota'] }} 
-            {% endif %} 
+          <td>
+            {% if disciplina['nota_etapa_1']['nota'] %} {{
+            disciplina['nota_etapa_1']['nota'] }} {% endif %}
           </td>
 
           <td>
-            {% if disciplina['media_final_disciplina'] %}
-              {{ disciplina['media_final_disciplina'] }}
-            {% endif %}
+            {% if disciplina['nota_etapa_2']['nota'] %} {{
+            disciplina['nota_etapa_2']['nota'] }} {% endif %}
+          </td>
+
+          <td>
+            {% if disciplina['nota_etapa_3']['nota'] %} {{
+            disciplina['nota_etapa_3']['nota'] }} {% endif %}
+          </td>
+
+          <td>
+            {% if disciplina['nota_etapa_4']['nota'] %} {{
+            disciplina['nota_etapa_4']['nota'] }} {% endif %}
+          </td>
+
+          <td>
+            {% if disciplina['media_final_disciplina'] %} {{
+            disciplina['media_final_disciplina'] }} {% endif %}
           </td>
 
           <td>{{ disciplina['situacao'] }}</td>
@@ -71,7 +77,9 @@
     <select class="form-select mb-2" name="ano_letivo" id="id_ano_letivo">
       <option value="">Selecione o ano letivo</option>
       {% for ano in data['anos_letivos'] %}
-      <option value="{{ ano['ano_letivo'] }}.{{ ano['periodo_letivo'] }}">{{ ano['ano_letivo'] }}.{{ ano['periodo_letivo'] }}</option>
+      <option value="{{ ano['ano_letivo'] }}.{{ ano['periodo_letivo'] }}">
+        {{ ano['ano_letivo'] }}.{{ ano['periodo_letivo'] }}
+      </option>
       {% endfor %}
     </select>
   </form>

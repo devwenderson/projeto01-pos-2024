@@ -28,4 +28,3 @@ class User:
     
     def get_user_anos_letivos(self):
         return self.oauth.suap.get(f"/api/v2/minhas-informacoes/meus-periodos-letivos/")
-    

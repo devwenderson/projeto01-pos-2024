@@ -1,0 +1,11 @@
+{% extends 'error_page_base.html' %}
+{% block title %} Não encontrado {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Erro no servidor</h1>
+        <p>Houve um problema no servidor. Não é culpa sua :3</p>
+        <p>Tente voltar para o início</p>
+        <a href="{{ url_for('index') }}" class="btn btn-success">Voltar para o início</a>
+    </div>
+{% endblock %}
