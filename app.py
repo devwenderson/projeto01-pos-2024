@@ -1,6 +1,6 @@
 from flask import Flask, redirect, url_for, session, request, jsonify, render_template
 from authlib.integrations.flask_client import OAuth
-from views.main import oauthRegister, User
+from main import oauthRegister, User
 from datetime import date
 
 app = Flask(__name__)
